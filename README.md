@@ -9,7 +9,7 @@ This repository contains reusable GitHub Actions workflows for consistent automa
 ```yaml
 jobs:
   release:
-    uses: your-org/github-actions-workflows/.github/workflows/reusable-release.yml@v1
+    uses: https://github.com/Vronst/release_workflow
     with:
       python-version: '3.13'
     secrets:
