@@ -31,4 +31,4 @@ jobs:
       TOKEN: ${{ secrets.PRO_TOKEN }}
 ```
 
-- PRO_TOKEN = token with permission to create release
+- PRO_TOKEN = token with permission to create releases
