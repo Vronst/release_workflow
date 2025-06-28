@@ -6,6 +6,9 @@ This repository contains reusable GitHub Actions workflows for consistent automa
 
 ### Usage
 
+- create release-notes.txt (can be empty) -> will be used to generete release notes
+- create release-title.txt (can be empty) -> will be used for release title
+
 ```yaml
 # Exapmle job
 name: test
