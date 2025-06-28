@@ -35,8 +35,11 @@ jobs:
           uv sync --frozen --dev
 
       - name: Run release preparation script
+        id: check
         run: |
-          if uv run release; then
+          uv run release
+          RESULT=$?
+          if [ $RESULT -eq 0 ]; then
             echo "release_required=true" >> "$GITHUB_OUTPUT"
           else
             echo "release_required=false" >> "$GITHUB_OUTPUT"
