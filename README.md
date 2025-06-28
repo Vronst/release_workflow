@@ -27,7 +27,7 @@ permissions:
 # This uses release workflow
 jobs:
   release:
-    uses: Vronst/release_workflow/.github/workflows/release.yml@1.0.0
+    uses: Vronst/release_workflow/.github/workflows/release.yml@2.0.0
     with:
       python-version: '3.13'
     secrets:
