@@ -37,8 +37,10 @@ jobs:
       - name: Run release preparation script
         id: check
         run: |
+          set +e  # disable exit on error
           uv run release
           RESULT=$?
+          set -e  # enable exit on error
           if [ $RESULT -eq 0 ]; then
             echo "release_required=true" >> "$GITHUB_OUTPUT"
           else
