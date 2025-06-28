@@ -36,15 +36,21 @@ jobs:
 
       - name: Run release preparation script
         run: |
-          uv run release
+          if uv run release; then
+            echo "release_required=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "release_required=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Create release notes environment variable
+        if: steps.check.outputs.release_required == 'true'
         run: |
           echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
           cat release-notes.txt >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
       - name: Create git tag and GitHub release
+        if: steps.check.outputs.release_required == 'true'
         env:
           RELEASE_VERSION: ${{ env.RELEASE_VERSION }}
           RELEASE_NOTES: ${{ env.RELEASE_NOTES }}
