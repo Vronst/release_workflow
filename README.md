@@ -7,11 +7,28 @@ This repository contains reusable GitHub Actions workflows for consistent automa
 ### Usage
 
 ```yaml
+# Exapmle job
+name: test
+
+on:
+  push:
+    branches:
+      - main
+
+# needed permissions
+permissions:
+  contents: write
+  packages: write
+
+# This is most important part
+# This uses release workflow
 jobs:
   release:
-    uses: https://github.com/Vronst/release_workflow
+    uses: Vronst/release_workflow/.github/workflows/release.yml@1d481760f99537353eb4e2ee58bac647ce11802f
     with:
       python-version: '3.13'
     secrets:
       TOKEN: ${{ secrets.PRO_TOKEN }}
 ```
+
+- PRO_TOKEN = token with permission to create release
