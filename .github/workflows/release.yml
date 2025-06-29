@@ -3,6 +3,16 @@ name: Reusable Release Workflow (with uv)
 on:
   workflow_call:
     inputs:
+      release_body:
+        description: 'Releae body'
+        required: false
+        default: 'New release with automated workflow'
+        type: string
+      release_title: 
+        description: 'Release title'
+        required: false
+        default: 'New release'
+        type: string
       python-version:
         description: 'Python version to use'
         required: false
@@ -49,9 +59,13 @@ jobs:
 
       - name: Create release notes environment variable
         if: steps.check.outputs.release_required == 'true'
-        run: |
+        run: | 
           echo "RELEASE_NOTES<<EOF" >> $GITHUB_ENV
-          cat release-notes.txt >> $GITHUB_ENV
+          if [ -f release-notes.txt ]; then
+            cat release-notes.txt >> $GITHUB_ENV
+          else
+            echo "${{ inputs.release_body }}" >> $GITHUB_ENV
+          fi
           echo "EOF" >> $GITHUB_ENV
 
       - name: Create git tag and GitHub release
@@ -66,7 +80,11 @@ jobs:
           git tag -a "$RELEASE_VERSION" -m "$RELEASE_NOTES"
           git push origin "$RELEASE_VERSION"
 
-          RELEASE_TITLE=$(cat release-title.txt)
+          if [ -f release-title.txt ]; then
+            RELEASE_TITLE=$(cat release-title.txt)
+          else
+            RELEASE_TITLE="${{ inputs.release_title }}"
+          fi
           gh release create "$RELEASE_VERSION" \
             --title "${RELEASE_VERSION}: ${RELEASE_TITLE}" \
             --notes "$RELEASE_NOTES"
